@@ -12,6 +12,7 @@ const LoginSignupPage = () => {
   const [signupMessage, setSignupMessage] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(false); 
   const [token, setToken] = useState(null);
+  const [isSubmitting, setIsSubmitting] = useState(false); // State to track submission status
 
   const navigate = useNavigate();
 
@@ -29,6 +30,7 @@ const LoginSignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsSubmitting(true); // Set submitting state to true
 
     const formData = isSignup
       ? { username: username, email: email, password: password }
@@ -48,7 +50,6 @@ const LoginSignupPage = () => {
       setIsLoggedIn(true);
 
       navigate('/search');
-
     } catch (error) {
       console.error('Error:', error);
       if (error.response) {
@@ -56,6 +57,8 @@ const LoginSignupPage = () => {
       } else {
         setSignupMessage('Operation failed. Please try again.');
       }
+    } finally {
+      setIsSubmitting(false); // Set submitting state back to false
     }
   };
 
@@ -124,6 +127,11 @@ const LoginSignupPage = () => {
             <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
               {isSignup ? 'Sign Up' : 'Login'}
             </Button>
+            {isSubmitting && (
+              <Typography variant="body2" color="textSecondary" sx={{ mt: 1 }}>
+                {isSignup ? 'Signing up. Please wait...' : 'Logging in. Please wait...'}
+              </Typography>
+            )}
             <Button
               onClick={handleSwitchMode}
               fullWidth
