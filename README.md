@@ -35,13 +35,13 @@ Follow these instructions to get a copy of the project up and running on your lo
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/yourusername/brewery-review-system.git
+   git clone https://github.com/saikrishnayadav764/moofr.git
    ```
 
 2. Navigate to the project directory:
 
    ```bash
-   cd brewery-review-system
+   cd moofr-main
    ```
 
 3. Install dependencies:
