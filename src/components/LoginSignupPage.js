@@ -30,7 +30,7 @@ const LoginSignupPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setIsSubmitting(true); // Set submitting state to true
+    setIsSubmitting(true);
 
     const formData = isSignup
       ? { username: username, email: email, password: password }
@@ -58,7 +58,7 @@ const LoginSignupPage = () => {
         setSignupMessage('Operation failed. Please try again.');
       }
     } finally {
-      setIsSubmitting(false); // Set submitting state back to false
+      setIsSubmitting(false);
     }
   };
 
