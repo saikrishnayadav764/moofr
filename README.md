@@ -1,7 +1,3 @@
-Here's the updated README for your Brewery Review System with the additional backend and GitHub links:
-
----
-
 # Brewery Review System
 
 The Brewery Review System is a web application that allows users to search for breweries, view details about them, and leave reviews. Users can like or dislike reviews, which affects their preferences for future recommendations.
@@ -83,7 +79,3 @@ The backend for this project is deployed at [https://moobe.onrender.com](https:/
 ## GitHub Repository
 
 The code for this project can be found on GitHub at [https://github.com/saikrishnayadav764/moobe](https://github.com/saikrishnayadav764/moobe).
-
----
-
-Feel free to further customize the README with additional details, such as how to contribute, troubleshooting tips, or any other relevant information specific to your project. This will help users understand and use your Brewery Review System effectively.
