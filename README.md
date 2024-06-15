@@ -14,7 +14,8 @@ The Brewery Review System is a web application that allows users to search for b
 
 ## Demo
 
-Link to a live demo.[https://moofr.vercel.app/](https://moofr.vercel.app/)
+Link to a live demo
+[https://moofr.vercel.app/](https://moofr.vercel.app/)
 
 ## Features
 
