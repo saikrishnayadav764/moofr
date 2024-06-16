@@ -20,7 +20,7 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
         setIsProcessing(true);
         try {
             const response = await axios.put(
-                `https://moobe.onrender.com/api/breweries/${reviewId}`,
+                `https://moobe-production.up.railway.app/api/breweries/${reviewId}`,
                 {
                     likes: likes + 1,
                     dislikes: dislikes,
@@ -53,7 +53,7 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
         setIsProcessing(true);
         try {
             const response = await axios.put(
-                `https://moobe.onrender.com/api/breweries/${reviewId}`,
+                `https://moobe-production.up.railway.app/api/breweries/${reviewId}`,
                 {
                     likes: likes,
                     dislikes: dislikes + 1,
@@ -80,7 +80,7 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
     const updatePreferences = async (updatedLikedBreweries, updatedDislikedBreweries) => {
         try {
             await axios.put(
-                "https://moobe.onrender.com/api/auth/preferences",
+                "https://moobe-production.up.railway.app/api/auth/preferences",
                 {
                     username: Cookies.get("username"),
                     likedBreweries: updatedLikedBreweries,
