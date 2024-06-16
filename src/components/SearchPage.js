@@ -22,7 +22,7 @@ const SearchPage = () => {
           const encodedQuery = encodeURIComponent(query); 
           endpoint = `https://api.openbrewerydb.org/v1/breweries/search?page=${currentPage}&query=${encodedQuery}&per_page=9`;
         } else {
-          endpoint = `https://api.openbrewerydb.org/v1/breweries/?per_page=9`;
+          endpoint = `https://api.openbrewerydb.org/v1/breweries/?per_page=9&page=${currentPage}`;
         }
         const response = await axios.get(endpoint);
         setBreweries(response.data);
