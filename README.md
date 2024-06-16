@@ -75,7 +75,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 ## Backend Deployed
 
-The backend for this project is deployed at [https://moobe.onrender.com](https://moobe.onrender.com).
+The backend for this project is deployed at [https://moobe-production.up.railway.app](https://moobe-production.up.railway.app).
 
 ## GitHub Repository
 
