@@ -2,24 +2,22 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography, Avatar, IconButton, Box } from "@mui/material";
 import ThumbUpIcon from "@mui/icons-material/ThumbUp";
 import ThumbDownIcon from "@mui/icons-material/ThumbDown";
-import Cookies from "js-cookie"; 
-import axios from "axios"; 
+import Cookies from "js-cookie";
+import axios from "axios";
 
 const Review = ({ reviewId, rating, description, reviewerName, date, reviewerProfilePic, likes, dislikes, likedBreweries, dislikedBreweries, setHasClicked }) => {
     const [feedbackMessage, setFeedbackMessage] = useState("");
-    const [lBreweries, setLBreweries] = useState([])
-    const [dBreweries, setDBreweries] = useState([])
-
-    
+    const [lBreweries, setLBreweries] = useState([]);
+    const [dBreweries, setDBreweries] = useState([]);
+    const [isProcessing, setIsProcessing] = useState(false);
 
     const handleLike = async () => {
-      
-
         if (likedBreweries.includes(reviewId) || dislikedBreweries.includes(reviewId) || lBreweries.includes(reviewId) || dBreweries.includes(reviewId)) {
             setFeedbackMessage("You already expressed for this review.");
             return;
         }
 
+        setIsProcessing(true);
         try {
             const response = await axios.put(
                 `https://moobe.onrender.com/api/breweries/${reviewId}`,
@@ -34,13 +32,16 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
                     },
                 }
             );
-            setLBreweries([...lBreweries, reviewId])
-            setHasClicked(Math.random())
+            setLBreweries([...lBreweries, reviewId]);
+            setHasClicked(Math.random());
             const updatedLikedBreweries = [...likedBreweries, reviewId];
             await updatePreferences(updatedLikedBreweries, dislikedBreweries);
+            setFeedbackMessage("Your like has been recorded.");
         } catch (error) {
             console.error("Error updating likes:", error);
+            setFeedbackMessage("There was an error processing your request.");
         }
+        setIsProcessing(false);
     };
 
     const handleDislike = async () => {
@@ -49,6 +50,7 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
             return;
         }
 
+        setIsProcessing(true);
         try {
             const response = await axios.put(
                 `https://moobe.onrender.com/api/breweries/${reviewId}`,
@@ -63,13 +65,16 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
                     },
                 }
             );
-            setDBreweries([...dBreweries, reviewId])
-            setHasClicked(Math.random())
+            setDBreweries([...dBreweries, reviewId]);
+            setHasClicked(Math.random());
             const updatedDislikedBreweries = [...dislikedBreweries, reviewId];
             await updatePreferences(likedBreweries, updatedDislikedBreweries);
+            setFeedbackMessage("Your dislike has been recorded.");
         } catch (error) {
             console.error("Error updating dislikes:", error);
+            setFeedbackMessage("There was an error processing your request.");
         }
+        setIsProcessing(false);
     };
 
     const updatePreferences = async (updatedLikedBreweries, updatedDislikedBreweries) => {
@@ -116,7 +121,7 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
     const formattedDate = new Intl.DateTimeFormat('en-US', options).format(new Date(date));
 
     return (
-        <Card sx={{ mt: 2, mb:2, boxShadow: 'rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;'}}>
+        <Card sx={{ mt: 2, mb: 2, boxShadow: 'rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;' }}>
             <CardContent>
                 <Box display="flex" alignItems="center" mb={1}>
                     <Avatar
@@ -148,11 +153,11 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
                     </Typography>
                 )}
                 <Box display="flex" alignItems="center">
-                    <IconButton onClick={handleLike} color="primary">
+                    <IconButton onClick={handleLike} color="primary" disabled={isProcessing}>
                         <ThumbUpIcon />
                     </IconButton>
                     <Typography variant="body2" color="textSecondary" mr={2}>{likes}</Typography>
-                    <IconButton onClick={handleDislike} color="secondary">
+                    <IconButton onClick={handleDislike} color="secondary" disabled={isProcessing}>
                         <ThumbDownIcon />
                     </IconButton>
                     <Typography variant="body2" color="textSecondary">{dislikes}</Typography>
