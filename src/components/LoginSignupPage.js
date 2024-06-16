@@ -25,7 +25,7 @@ const LoginSignupPage = () => {
     }
   }, [navigate]);
 
-  const apiUrl = 'https://moobe.onrender.com/api/auth';
+  const apiUrl = 'https://moobe-production.up.railway.app/api/auth';
   const endpoint = isSignup ? `${apiUrl}/register` : `${apiUrl}/login`;
 
   const handleSubmit = async (e) => {
