@@ -6,8 +6,8 @@ import Cookies from "js-cookie";
 import axios from "axios"; 
 
 const Review = ({ reviewId, rating, description, reviewerName, date, reviewerProfilePic, likes, dislikes, likedBreweries, dislikedBreweries, setHasClicked }) => {
-    const [rlikes, setLikes] = useState(0);
-    const [rdislikes, setDislikes] = useState(0);
+    const [rlikes, setLikes] = useState(likes);
+    const [rdislikes, setDislikes] = useState(dislikes);
     const [feedbackMessage, setFeedbackMessage] = useState("");
     const [lBreweries, setLBreweries] = useState([])
     const [dBreweries, setDBreweries] = useState([])
