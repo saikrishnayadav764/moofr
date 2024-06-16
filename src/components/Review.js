@@ -6,24 +6,17 @@ import Cookies from "js-cookie";
 import axios from "axios"; 
 
 const Review = ({ reviewId, rating, description, reviewerName, date, reviewerProfilePic, likes, dislikes, likedBreweries, dislikedBreweries, setHasClicked }) => {
-    const [rlikes, setLikes] = useState(likes || 0);
-    const [rdislikes, setDislikes] = useState(dislikes || 0);
+    const [rlikes, setLikes] = useState(likes);
+    const [rdislikes, setDislikes] = useState(dislikes);
     const [feedbackMessage, setFeedbackMessage] = useState("");
     const [lBreweries, setLBreweries] = useState([])
     const [dBreweries, setDBreweries] = useState([])
 
-    useEffect(() => {
-        return () => {
-            setLikes(0);
-            setDislikes(0);
-        };
-    }, []);
     
 
     const handleLike = async () => {
-      console.log(likedBreweries)
       
-      setHasClicked(prev=>!prev)
+
         if (likedBreweries.includes(reviewId) || dislikedBreweries.includes(reviewId) || lBreweries.includes(reviewId) || dBreweries.includes(reviewId)) {
             setFeedbackMessage("You already expressed for this review.");
             return;
@@ -46,6 +39,7 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
             );
             // setLikes(rlikes + 1);
             setLBreweries([...lBreweries, reviewId])
+            setHasClicked(Math.random())
             const updatedLikedBreweries = [...likedBreweries, reviewId];
             await updatePreferences(updatedLikedBreweries, dislikedBreweries);
         } catch (error) {
@@ -54,7 +48,6 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
     };
 
     const handleDislike = async () => {
-      setHasClicked(prev=>!prev)
         if (likedBreweries.includes(reviewId) || dislikedBreweries.includes(reviewId) || lBreweries.includes(reviewId) || dBreweries.includes(reviewId)) {
             setFeedbackMessage("You already expressed for this review.");
             return;
@@ -77,6 +70,7 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
             );
             // setDislikes(rdislikes + 1);
             setDBreweries([...dBreweries, reviewId])
+            setHasClicked(Math.random())
             const updatedDislikedBreweries = [...dislikedBreweries, reviewId];
             await updatePreferences(likedBreweries, updatedDislikedBreweries);
         } catch (error) {
