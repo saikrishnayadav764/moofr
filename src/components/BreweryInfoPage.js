@@ -29,7 +29,7 @@ const BreweryInfoPage = () => {
   const [filterRating, setFilterRating] = useState("");
   const [filterByMe, setFilterByMe] = useState(false);
   const [hasReviewed, setHasReviewed] = useState(false);
-  const [hasClicked, setHasClicked] = useState(false);
+  const [hasClicked, setHasClicked] = useState(0);
   const [reviewedBreweries, setReviewedBreweries] = useState([]);
   const [likedBreweries, setLikedBreweries] = useState([]);
   const [dislikedBreweries, setDislikedBreweries] = useState([]);
