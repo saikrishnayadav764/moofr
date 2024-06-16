@@ -55,7 +55,7 @@ const BreweryInfoPage = () => {
     const checkIfReviewed = async () => {
       try {
         const response = await axios.get(
-          `https://moobe.onrender.com/api/auth/check?username=${Cookies.get(
+          `https://moobe-production.up.railway.app/api/auth/check?username=${Cookies.get(
             "username"
           )}&breweryId=${id}`,
           {
@@ -109,7 +109,7 @@ const BreweryInfoPage = () => {
     setReviewsLoading(true);
     try {
       const response = await axios.get(
-        `https://moobe.onrender.com/api/breweries/${id}`,
+        `https://moobe-production.up.railway.app/api/breweries/${id}`,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
@@ -143,7 +143,7 @@ const BreweryInfoPage = () => {
         likes: 0,
         dislikes: 0,
       };
-      await axios.post("https://moobe.onrender.com/api/breweries", newReview, {
+      await axios.post("https://moobe-production.up.railway.app/api/breweries", newReview, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
@@ -152,7 +152,7 @@ const BreweryInfoPage = () => {
       setDescription("");
       
       await axios.put(
-        "https://moobe.onrender.com/api/auth/preferences",
+        "https://moobe-production.up.railway.app/api/auth/preferences",
         {
           username: `${Cookies.get("username")}`,
           reviewedBreweries: [...reviewedBreweries, id],
