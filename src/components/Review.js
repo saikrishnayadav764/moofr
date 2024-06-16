@@ -6,8 +6,6 @@ import Cookies from "js-cookie";
 import axios from "axios"; 
 
 const Review = ({ reviewId, rating, description, reviewerName, date, reviewerProfilePic, likes, dislikes, likedBreweries, dislikedBreweries, setHasClicked }) => {
-    const [rlikes, setLikes] = useState(likes);
-    const [rdislikes, setDislikes] = useState(dislikes);
     const [feedbackMessage, setFeedbackMessage] = useState("");
     const [lBreweries, setLBreweries] = useState([])
     const [dBreweries, setDBreweries] = useState([])
@@ -23,12 +21,11 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
         }
 
         try {
-            setLikes(rlikes + 1);
             const response = await axios.put(
-                `https://moobe-production.up.railway.app/api/breweries/${reviewId}`,
+                `https://moobe.onrender.com/api/breweries/${reviewId}`,
                 {
-                    likes: rlikes + 1,
-                    dislikes: rdislikes,
+                    likes: likes + 1,
+                    dislikes: dislikes,
                 },
                 {
                     headers: {
@@ -37,7 +34,6 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
                     },
                 }
             );
-            // setLikes(rlikes + 1);
             setLBreweries([...lBreweries, reviewId])
             setHasClicked(Math.random())
             const updatedLikedBreweries = [...likedBreweries, reviewId];
@@ -54,12 +50,11 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
         }
 
         try {
-            setDislikes(rdislikes + 1);
             const response = await axios.put(
-                `https://moobe-production.up.railway.app/api/breweries/${reviewId}`,
+                `https://moobe.onrender.com/api/breweries/${reviewId}`,
                 {
-                    likes: rlikes,
-                    dislikes: rdislikes + 1,
+                    likes: likes,
+                    dislikes: dislikes + 1,
                 },
                 {
                     headers: {
@@ -68,7 +63,6 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
                     },
                 }
             );
-            // setDislikes(rdislikes + 1);
             setDBreweries([...dBreweries, reviewId])
             setHasClicked(Math.random())
             const updatedDislikedBreweries = [...dislikedBreweries, reviewId];
@@ -81,7 +75,7 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
     const updatePreferences = async (updatedLikedBreweries, updatedDislikedBreweries) => {
         try {
             await axios.put(
-                "https://moobe-production.up.railway.app/api/auth/preferences",
+                "https://moobe.onrender.com/api/auth/preferences",
                 {
                     username: Cookies.get("username"),
                     likedBreweries: updatedLikedBreweries,
@@ -157,11 +151,11 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
                     <IconButton onClick={handleLike} color="primary">
                         <ThumbUpIcon />
                     </IconButton>
-                    <Typography variant="body2" color="textSecondary" mr={2}>{rlikes}</Typography>
+                    <Typography variant="body2" color="textSecondary" mr={2}>{likes}</Typography>
                     <IconButton onClick={handleDislike} color="secondary">
                         <ThumbDownIcon />
                     </IconButton>
-                    <Typography variant="body2" color="textSecondary">{rdislikes}</Typography>
+                    <Typography variant="body2" color="textSecondary">{dislikes}</Typography>
                 </Box>
             </CardContent>
         </Card>
