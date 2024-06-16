@@ -13,9 +13,6 @@ const Review = ({ reviewId, rating, description, reviewerName, date, reviewerPro
     const [dBreweries, setDBreweries] = useState([])
 
     useEffect(() => {
-        setLikes(likes);
-        setDislikes(dislikes);
-        
         return () => {
             setLikes(0);
             setDislikes(0);
