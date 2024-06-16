@@ -51,21 +51,7 @@ const BreweryInfoPage = () => {
       }
     };
 
-    const fetchReviews = async () => {
-      try {
-        const response = await axios.get(
-          `https://moobe-production.up.railway.app/api/breweries/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${Cookies.get("token")}`,
-            },
-          }
-        );
-        setReviews(response.data);
-      } catch (error) {
-        console.error("Error fetching reviews:", error);
-      }
-    };
+
 
     const checkIfReviewed = async () => {
       try {
@@ -120,6 +106,22 @@ const BreweryInfoPage = () => {
 
   const randomColor = getRandomColor();
 
+  const fetchReviews = async () => {
+    try {
+      const response = await axios.get(
+        `https://moobe-production.up.railway.app/api/breweries/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${Cookies.get("token")}`,
+          },
+        }
+      );
+      setReviews(response.data);
+    } catch (error) {
+      console.error("Error fetching reviews:", error);
+    }
+  };
+
   const handleReviewSubmit = async (e) => {
     e.preventDefault();
     const date = new Date();
@@ -144,21 +146,19 @@ const BreweryInfoPage = () => {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
       });
-      setReviews((prevReviews) => [...prevReviews, newReview]);
       setRating("");
       setDescription("");
-
-      const updatedReviewedBreweries = [...reviewedBreweries, id];
+      
       await axios.put(
         "https://moobe-production.up.railway.app/api/auth/preferences",
         {
           username: `${Cookies.get("username")}`,
-          reviewedBreweries: updatedReviewedBreweries,
+          reviewedBreweries: [...reviewedBreweries, id],
         },
         { headers: { Authorization: `Bearer ${Cookies.get("token")}` } }
       );
-      setReviewedBreweries(updatedReviewedBreweries);
       setHasReviewed(true);
+      await fetchReviews(); 
     } catch (error) {
       console.error("Error submitting review:", error);
     }
@@ -287,7 +287,6 @@ const BreweryInfoPage = () => {
                         sx={{ mb: 2 }}
                       />
                       <Button
-                        onClick={handleReviewSubmit}
                         type="submit"
                         variant="contained"
                         color="primary"
