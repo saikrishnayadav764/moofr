@@ -25,6 +25,7 @@ const BreweryInfoPage = () => {
   const [rating, setRating] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(true);
+  const [reviewsLoading, setReviewsLoading] = useState(true);
   const [sortOrder, setSortOrder] = useState("latest");
   const [filterRating, setFilterRating] = useState("");
   const [filterByMe, setFilterByMe] = useState(false);
@@ -51,12 +52,10 @@ const BreweryInfoPage = () => {
       }
     };
 
-
-
     const checkIfReviewed = async () => {
       try {
         const response = await axios.get(
-          `https://moobe-production.up.railway.app/api/auth/check?username=${Cookies.get(
+          `https://moobe.onrender.com/api/auth/check?username=${Cookies.get(
             "username"
           )}&breweryId=${id}`,
           {
@@ -107,9 +106,10 @@ const BreweryInfoPage = () => {
   const randomColor = getRandomColor();
 
   const fetchReviews = async () => {
+    setReviewsLoading(true);
     try {
       const response = await axios.get(
-        `https://moobe-production.up.railway.app/api/breweries/${id}`,
+        `https://moobe.onrender.com/api/breweries/${id}`,
         {
           headers: {
             Authorization: `Bearer ${Cookies.get("token")}`,
@@ -119,6 +119,8 @@ const BreweryInfoPage = () => {
       setReviews(response.data);
     } catch (error) {
       console.error("Error fetching reviews:", error);
+    } finally {
+      setReviewsLoading(false);
     }
   };
 
@@ -141,7 +143,7 @@ const BreweryInfoPage = () => {
         likes: 0,
         dislikes: 0,
       };
-      await axios.post("https://moobe-production.up.railway.app/api/breweries", newReview, {
+      await axios.post("https://moobe.onrender.com/api/breweries", newReview, {
         headers: {
           Authorization: `Bearer ${Cookies.get("token")}`,
         },
@@ -150,7 +152,7 @@ const BreweryInfoPage = () => {
       setDescription("");
       
       await axios.put(
-        "https://moobe-production.up.railway.app/api/auth/preferences",
+        "https://moobe.onrender.com/api/auth/preferences",
         {
           username: `${Cookies.get("username")}`,
           reviewedBreweries: [...reviewedBreweries, id],
@@ -346,23 +348,29 @@ const BreweryInfoPage = () => {
                   {filterByMe ? "Show All Reviews" : "Show My Reviews"}
                 </Button>
               </Box>
-              {filteredReviews.map((review, index) => (
-                <Review
-                  key={index}
-                  reviewId={review._id}
-                  breweryId={id}
-                  rating={review.rating}
-                  description={review.description}
-                  date={review.date}
-                  reviewerName={review.reviewerName}
-                  reviewerProfilePic={review.reviewerProfilePic}
-                  likes={review.likes}
-                  dislikes={review.dislikes}
-                  likedBreweries={likedBreweries}
-                  dislikedBreweries={dislikedBreweries}
-                  setHasClicked={setHasClicked}
-                />
-              ))}
+              {reviewsLoading ? (
+                <Box sx={{ display: "flex", justifyContent: "center", mt: 4 }}>
+                  <CircularProgress />
+                </Box>
+              ) : (
+                filteredReviews.map((review, index) => (
+                  <Review
+                    key={index}
+                    reviewId={review._id}
+                    breweryId={id}
+                    rating={review.rating}
+                    description={review.description}
+                    date={review.date}
+                    reviewerName={review.reviewerName}
+                    reviewerProfilePic={review.reviewerProfilePic}
+                    likes={review.likes}
+                    dislikes={review.dislikes}
+                    likedBreweries={likedBreweries}
+                    dislikedBreweries={dislikedBreweries}
+                    setHasClicked={setHasClicked}
+                  />
+                ))
+              )}
             </Box>
           </>
         )}
