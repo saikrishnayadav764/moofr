@@ -63,9 +63,10 @@ Follow these instructions to get a copy of the project up and running on your lo
 2. Open [http://localhost:3000](http://localhost:3000) to view the app in the browser.
 
 ### Sample Password
-
+ ```bash
 User Email: ross@gmail.com
 User Password: ross
+```
 
 ## Dependencies
 
