@@ -9,6 +9,7 @@ The Brewery Review System is a web application that allows users to search for b
 - [Getting Started](#getting-started)
   - [Installation](#installation)
   - [Usage](#usage)
+  - [Sample Password](#Sample-Password)
 - [Dependencies](#dependencies)
 - [APIs Used](#apis-used)
 
